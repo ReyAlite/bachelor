@@ -1,25 +1,39 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./App.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
+
+import Login from "./components/Login"
+import Board from "./components/board/Board"
+import BoardItem from "./components/board/BoardItem"
+import Chat from "./components/chat/Chat"
+import Profile from "./components/profile/Profile"
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <div className="w-75 m-auto">
+            <Router>
+                <Switch>
+                    <Route exact path="/">
+                        <Board/>
+                    </Route>
+                    <Route path="/login">
+                        <Login/>
+                    </Route>
+                    <Route path="/board/:id">
+                        <BoardItem/>
+                    </Route>
+                    <Route path="/chat">
+                        <Chat/>
+                    </Route>
+                    <Route path="/profile">
+                        <Profile/>
+                    </Route>
+                </Switch>
+            </Router>
+        </div>
+
+    );
 }
 
 export default App;
