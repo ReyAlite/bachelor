@@ -9,7 +9,10 @@ router.get('/entries', (req, res) => {
 });
 
 router.post('/entries', (req, res) => {
-    //Entry.create()
+    if(req.body){
+        console.log(req.body)
+        res.status(200)
+    }
 });
 
 router.delete('/entries/:id', (req, res) => {

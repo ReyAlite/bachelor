@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import Navigation from '../Navigation';
 import ItemForm from './ItemForm';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../../css/board.css"
@@ -48,7 +47,7 @@ class Board extends Component {
     }
 
     componentDidMount() {
-        fetch('/api/entries')
+        fetch('http://localhost:4000/api/entries')
             .then(res => {
                 res.json()
                     .then(data =>
