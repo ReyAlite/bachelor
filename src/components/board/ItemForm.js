@@ -18,13 +18,16 @@ class ItemForm extends Component {
             const formData = {
                 title: this.state.title,
                 body: this.state.body,
-                author: this.state.author
+                author: this.state.author,
+                date : Date.now(),
+                meta : {
+                    reports : 0
+                }
             }
             fetch('http://localhost:4000/api/entries', {
                 method: 'POST',
                 headers: {
                     'Content-type': 'application/json',
-                    'Accept': 'application/json'
                 },
                 body: JSON.stringify(formData)
             })
@@ -36,7 +39,6 @@ class ItemForm extends Component {
                     console.error('Error:', error);
                 });
         }
-        console.log(this.state)
     }
 
     handleTitleInput = (e) => {

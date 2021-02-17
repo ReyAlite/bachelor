@@ -10,8 +10,13 @@ router.get('/entries', (req, res) => {
 
 router.post('/entries', (req, res) => {
     if(req.body){
-        console.log(req.body)
-        res.status(200)
+        Entry.create(req.body)
+            .then(data => res.status(200).json(data))
+            .catch(err => console.log(err))
+    } else {
+        res.json({
+            err : 'empty input'
+        })
     }
 });
 
