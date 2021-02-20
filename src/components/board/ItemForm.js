@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import "bootstrap/dist/css/bootstrap.min.css";
-import {Collapse} from 'react-bootstrap';
+import {Collapse, Button} from 'react-bootstrap';
+import '../../css/itemForm.css';
 
 class ItemForm extends Component {
     constructor(props) {
@@ -19,9 +20,9 @@ class ItemForm extends Component {
                 title: this.state.title,
                 body: this.state.body,
                 author: this.state.author,
-                date : Date.now(),
-                meta : {
-                    reports : 0
+                date: Date.now(),
+                meta: {
+                    reports: 0
                 }
             }
             fetch('http://localhost:4000/api/entries', {
@@ -55,35 +56,42 @@ class ItemForm extends Component {
 
     render() {
         return (
-            <div className="">
-                <a
+            <div className="d-flex flex-column">
+                <Button
+                    className="btn-sm btn-dark w-25 mt-3 mr-3 ml-auto"
                     href="#!"
                     onClick={() => this.props.action()}
                     aria-controls="item-form"
                     aria-expanded={this.props.isActive}
-                >
-                    click
-                </a>
-                <Collapse in={this.props.isActive}>
-                    <form>
-                        <input
-                            type="text"
-                            onChange={e => this.handleTitleInput(e)}
-                            name="entry-title"
-                            value={this.state.title}
-                        />
-                        <input
-                            type="text"
-                            onChange={e => this.handleBodyInput(e)}
-                            name="entry-title"
-                            value={this.state.body}
-                        />
-                        <button
-                            onClick={e => this.addEntry(e)}
-                        >Erstellen
-                        </button>
-                    </form>
-                </Collapse>
+                >Neuer Beitrag</Button>
+                <div className="w-75 ml-auto mr-auto mt-3">
+                    <Collapse in={this.props.isActive}>
+                        <div>
+                            <span className="small">Teile deine Gedanken und Erfahrungen indem du einen Beitrag im Board veröffentlichst</span>
+                            <form>
+                                <input
+                                    className="form-input"
+                                    type="text"
+                                    onChange={e => this.handleTitleInput(e)}
+                                    name="entry-title"
+                                    value={this.state.title}
+                                />
+                                <textarea
+                                    className="form-input"
+                                    type="text"
+                                    onChange={e => this.handleBodyInput(e)}
+                                    name="entry-title"
+                                    value={this.state.body}
+                                />
+                                <button
+                                    className="btn-sm btn-dark"
+                                    onClick={e => this.addEntry(e)}
+                                >Erstellen
+                                </button>
+                            </form>
+                        </div>
+                    </Collapse>
+                </div>
             </div>
         );
     }

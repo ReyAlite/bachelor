@@ -2,17 +2,18 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 //create schema for item
-const itemSchema = new Schema({
+const entrySchema = new Schema({
     author : String,
     title : String,
     body : String,
     date : {type : Date, default : Date.now()},
     meta : {
+        comments: {type : [String]},
         reports : {type : Number, default: 0}
     }
 })
 
 //create model for item
-const Todo = mongoose.model('item', itemSchema);
+const Entry = mongoose.model('item', entrySchema);
 
-module.exports = Todo;
+module.exports = Entry;
