@@ -8,7 +8,7 @@ class Navigation extends Component {
             <div className="ml-auto mt-5 navigation">
                 <Link to="/">Board</Link>
                 <Link to="/chat">Chat</Link>
-                <Link to="/login">Logout</Link>
+                <Link className="small text-muted" to="/login">Logout</Link>
             </div>
         );
     }

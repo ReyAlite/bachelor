@@ -1,13 +1,12 @@
 import React, {Component} from 'react';
-import Navigation from '../Navigation';
 import Header from '../Header';
 
 class Chat extends Component {
     render() {
         return (
-            <div className="d-flex flex-column" >
+            <div className="d-flex flex-column w-50 mt-3 ml-auto mr-auto">
                 <Header name="Chat"/>
-                <p>Chat</p>
+                <p className="text-center text-danger">Under Construction</p>
             </div>
         );
     }
