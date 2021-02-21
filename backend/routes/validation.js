@@ -1,6 +1,6 @@
 const isEmpty = require('is-empty');
 
-function validateRegistration(data){
+function validateInput(data){
     let errors = {}
     //check if data is empty
     if(isEmpty(data)){
@@ -23,21 +23,5 @@ function validateRegistration(data){
         isValid: isEmpty(errors)
     }
 }
-/*
-function validateLogin(data){
-    let errors = {}
 
-    const name = data.name + ''
-    const password = data.password + ''
-
-    console.log(name)
-    console.log(password)
-
-    return {
-        errors,
-        isValid: isEmpty(errors)
-    }
-}*/
-
-exports.validateRegistration = validateRegistration;
-//exports.validateLogin = validateLogin;
+exports.validateInput = validateInput;

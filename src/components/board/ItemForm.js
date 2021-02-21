@@ -7,7 +7,7 @@ class ItemForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            author: 'currentUser',
+            author: '',
             title: '',
             body: ''
         }
@@ -70,6 +70,7 @@ class ItemForm extends Component {
                             <span className="small">Teile deine Gedanken und Erfahrungen indem du einen Beitrag im Board veröffentlichst</span>
                             <form>
                                 <input
+                                    placeholder="Titel"
                                     className="form-input"
                                     type="text"
                                     onChange={e => this.handleTitleInput(e)}
@@ -77,6 +78,7 @@ class ItemForm extends Component {
                                     value={this.state.title}
                                 />
                                 <textarea
+                                    placeholder="Als ich damals..."
                                     className="form-input"
                                     type="text"
                                     onChange={e => this.handleBodyInput(e)}
@@ -94,6 +96,11 @@ class ItemForm extends Component {
                 </div>
             </div>
         );
+    }
+    componentDidMount() {
+        this.setState({
+            author : window.sessionStorage.getItem('username')
+        })
     }
 }
 

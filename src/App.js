@@ -8,6 +8,7 @@ import Board from "./components/board/Board"
 import BoardItem from "./components/board/BoardItem"
 import Chat from "./components/chat/Chat"
 import Profile from "./components/profile/Profile"
+import Registration from './components/Registration';
 
 function App() {
     return (
@@ -19,6 +20,9 @@ function App() {
                     </Route>
                     <Route path="/login">
                         <Login/>
+                    </Route>
+                    <Route path="/register">
+                        <Registration/>
                     </Route>
                     <Route path="/board/:id">
                         <BoardItem/>

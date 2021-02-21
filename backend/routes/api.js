@@ -1,10 +1,15 @@
 //Api routes to enable the connection from the frontend with the server
 const express = require('express');
+//express router middleware
 const router = express.Router();
+//used to hash and salt user password
 const bcrypt = require('bcryptjs');
+//jwt token
 const jwt = require('jsonwebtoken');
+//Models
 const Entry = require('../models/entry');
 const User = require('../models/user');
+//validation
 const validate = require('./validation');
 
 // @route   GET api/entries
@@ -44,7 +49,7 @@ router.delete('/entries/:id', (req, res) => {
 // @access  Public
 router.post('/user/register', (req, res) => {
     //validate incoming data
-    const {errors, isValid} = validate.validateRegistration(req.body);
+    const {errors, isValid} = validate.validateInput(req.body);
     if (!isValid) {
         return res.status(400).json(errors);
     }
@@ -79,7 +84,7 @@ router.post('/user/register', (req, res) => {
 // @desc    login using JWT token
 // @access  Public
 router.post('/user/login', (req, res) => {
-    const {errors, isValid} = validate.validateRegistration(req.body);
+    const {errors, isValid} = validate.validateInput(req.body);
     if (!isValid) {
         return res.status(400).json(errors);
     }
@@ -90,7 +95,7 @@ router.post('/user/login', (req, res) => {
     User.findOne({username: username})
         .then(user => {
             if (!user) {
-                return res.status(400).json({username: 'Username bereits vergeben'})
+                return res.status(404).json("incorrect input")
             }
             bcrypt.compare(password, user.password)
                 .then(isMatch => {
@@ -112,7 +117,7 @@ router.post('/user/login', (req, res) => {
                             })
                     } else {
                         return res
-                            .status(400).json({password: "password is incorect, plebp"})
+                            .status(404).json("incorrect input")
                     }
                 })
         })
