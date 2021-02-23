@@ -8,6 +8,7 @@ class ItemForm extends Component {
         super(props);
         this.state = {
             author: '',
+            userId: '',
             title: '',
             body: ''
         }
@@ -20,10 +21,7 @@ class ItemForm extends Component {
                 title: this.state.title,
                 body: this.state.body,
                 author: this.state.author,
-                date: Date.now(),
-                meta: {
-                    reports: 0
-                }
+                userId : this.state.userId,
             }
             fetch('http://localhost:4000/api/entries', {
                 method: 'POST',
@@ -99,7 +97,8 @@ class ItemForm extends Component {
     }
     componentDidMount() {
         this.setState({
-            author : window.sessionStorage.getItem('username')
+            author : window.sessionStorage.getItem('username'),
+            userId : window.sessionStorage.getItem('userId')
         })
     }
 }

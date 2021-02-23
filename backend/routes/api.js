@@ -8,16 +8,43 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 //Models
 const Entry = require('../models/entry');
-const User = require('../models/user');
+const User = require('../models/user').User;
 //validation
 const validate = require('./validation');
+//passport
+const passport = require('passport')
+
+/*function ensureAuthenticated(req, res, next) {
+    if (req.isAuthenticated())
+        return next();
+    else{
+        // Return error content: res.jsonp(...) or redirect: res.redirect('/login')
+        }
+}*/
 
 // @route   GET api/entries
 // @desc    get all entries
 // @access  Private
 router.get('/entries', (req, res) => {
     Entry.find({})
-        .then(data => res.status(200).json(data))
+        .then(entries => {
+            //to not send complete author information (including pw), the entries are modified
+            let entryArr = []
+            entries.forEach(entry => {
+                const e = {
+                    author: entry.author.username,
+                    body: entry.body,
+                    comments: entry.comments,
+                    date: entry.date,
+                    reportedBy: entry.reportedBy,
+                    title: entry.title,
+                    __v: entry.__v,
+                    _id: entry._id,
+                }
+                entryArr.push(e)
+            })
+            res.status(200).json(entryArr)
+        })
         .catch(err => console.log(err))
 });
 
@@ -27,8 +54,18 @@ router.get('/entries', (req, res) => {
 router.post('/entries', (req, res) => {
     if (req.body) {
         console.log(req.body)
-        Entry.create(req.body)
-            .then(data => res.status(200).json(data))
+        User.findById(req.body.userId)
+            .then(user => {
+                Entry.create({
+                    title : req.body.title,
+                    body : req.body.body,
+                    author : user,
+                })
+                    .then(data => {
+                        res.status(200).json(data)
+                    })
+                    .catch(err => console.log(err))
+            })
             .catch(err => console.log(err))
     } else {
         res.json({
@@ -43,6 +80,26 @@ router.post('/entries', (req, res) => {
 router.delete('/entries/:id', (req, res) => {
     //Entry.delete()
 })
+
+router.put('/entries/:id', (req, res) => {
+    console.log(req.body)
+    Entry.findById(req.params.id)
+        .then(entry => {
+            console.log(entry)
+            res.status(200).json(entry)
+        })
+        .catch(err => console.error(err))
+})
+
+/*router.get('/entries/:id', (req, res) => {
+    const {id} = req.params;
+    console.log(req)
+    Entry.findById(id)
+        .then(entry => {
+            console.log(entry)
+        })
+        .catch(err => console.error(err))
+})*/
 
 // @route   POST api/user/register
 // @desc    register a new user

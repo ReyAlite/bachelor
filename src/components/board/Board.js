@@ -18,12 +18,9 @@ class Board extends Component {
         this.setState({modalIsActive: !this.state.modalIsActive})
     }
 
-    getEntryList = () => {
+    generateEntryList = () => {
         const {data} = this.state;
-        const sortedData = data.sort((a,b) => a.date - b.date);
-        console.log(data)
-        console.log(sortedData)
-        return sortedData.map((entry) => {
+        return data.map((entry) => {
             return <BoardItem key={entry._id} data={entry}/>
         });
     }
@@ -36,7 +33,7 @@ class Board extends Component {
                     <ItemForm
                         action={this.handleActiveModal}
                         isActive={this.state.modalIsActive}/>
-                    {this.getEntryList()}
+                    {this.generateEntryList()}
                 </div>
             </div>
         );
@@ -50,7 +47,6 @@ class Board extends Component {
                         this.setState({
                             data: data
                         })
-                        console.log(data)
                     })
             })
             .catch(err => console.log(err))

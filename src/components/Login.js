@@ -44,7 +44,7 @@ class Login extends Component {
                     window.sessionStorage.setItem("userId", data.user._id);
                 })
                 .then(() => {
-                        this.props.history.push('/')
+                        this.props.history.push('/board')
                     }
                 )
                 .catch(err => {
@@ -94,7 +94,7 @@ class Login extends Component {
                 <span className="text-danger small text-center">{this.state.errors.errorFromServer}</span>
                 <Link
                     className="mt-3 ml-auto mr-auto btn-dark btn-sm text-decoration-none"
-                    to='/login'
+                    to='/'
                     onClick={this.login}
                 >Login</Link>
                 <Link
