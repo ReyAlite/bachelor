@@ -1,9 +1,8 @@
 import React, {Component} from 'react';
-import Navigation from '../Navigation';
 import ItemForm from './ItemForm';
 import "bootstrap/dist/css/bootstrap.min.css";
-import "../../css/board.css"
 import Header from '../Header';
+import BoardItem from './BoardItem';
 
 class Board extends Component {
     constructor(props) {
@@ -19,44 +18,42 @@ class Board extends Component {
         this.setState({modalIsActive: !this.state.modalIsActive})
     }
 
-    getEntryList = () => {
+    generateEntryList = () => {
         const {data} = this.state;
         return data.map((entry) => {
-            return (
-                <div key={entry._id}
-                className="bg-light m-3">
-                    <p className="p-2 font-weight-bold">{entry.title}</p>
-                    <p className="p-2">{entry.body}</p>
-                </div>
-            );
+            return <BoardItem key={entry._id} data={entry}/>
         });
     }
 
     render() {
         return (
-            <div className="d-flex flex-column">
+            <div className="w-50 ml-auto mr-auto mt-3 d-flex flex-column">
                 <Header name="Board"/>
-                <div className="board-container">
-                    <p>Das Board</p>
+                <div className="bg-white mt-3 border rounded">
                     <ItemForm
                         action={this.handleActiveModal}
                         isActive={this.state.modalIsActive}/>
+                    {this.generateEntryList()}
                 </div>
-                {this.getEntryList()}
             </div>
         );
     }
 
-    componentDidMount() {
-        fetch('/api/entries')
+    fetchData = () => {
+        fetch('http://localhost:4000/api/entries')
             .then(res => {
                 res.json()
-                    .then(data =>
+                    .then(data => {
                         this.setState({
                             data: data
-                        }))
+                        })
+                    })
             })
             .catch(err => console.log(err))
+    }
+
+    componentDidMount() {
+        this.fetchData()
     }
 }
 

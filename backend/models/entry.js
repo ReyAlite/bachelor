@@ -1,18 +1,20 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const User = require('./user');
+const Comment = require('./comment');
 
-//create schema for item
-const itemSchema = new Schema({
-    author : String,
-    title : String,
-    body : String,
-    date : {type : Date, default : Date.now()},
-    meta : {
-        reports : {type : Number, default: 0}
-    }
+//entry schema
+const entrySchema = new Schema({
+    author: {type: User.userSchema, required: true},
+    title: {type: String, required: true},
+    body: {type: String, required: true},
+    date: {type: Date, default: Date.now(), required: true},
+    reportedBy: [User.userSchema],
+    amountOfReports: Number,
+    comments: [Comment.commentSchema]
 })
 
 //create model for item
-const Todo = mongoose.model('item', itemSchema);
+const Entry = mongoose.model('item', entrySchema);
 
-module.exports = Todo;
+module.exports = Entry;

@@ -1,3 +1,8 @@
 .navigation a {
     margin-left: 1em;
+    color: #393E3A;
+}
+
+.navigation a:hover {
+    text-decoration: underline;
 }

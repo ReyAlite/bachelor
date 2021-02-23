@@ -5,7 +5,7 @@ class Header extends Component {
     render() {
         return (
             <div className="d-flex">
-                <h2>{this.props.name}</h2>
+                <h2 className="font-weight-bold">{this.props.name}</h2>
                 <Navigation/>
             </div>
         );

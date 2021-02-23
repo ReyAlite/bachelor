@@ -1,17 +1,17 @@
 import React, {Component} from 'react';
-import {Link, withRouter} from "react-router-dom";
+import {Link, withRouter} from 'react-router-dom';
 
-class Login extends Component {
+class Registration extends Component {
     constructor(props) {
         super(props);
         this.state = {
             username: '',
             password: '',
-            errors : {}
+            errors: {}
         }
     }
 
-    login = () => {
+    register = () => {
         const {username} = this.state;
         const {password} = this.state;
         let errors = {}
@@ -21,12 +21,12 @@ class Login extends Component {
         if (password.length <= 0) {
             errors.password = "Please enter your password"
         }
-        if (username.length && password.length > 0) {
+        if (username.length && password.length >= 0) {
             const user = {
                 username: this.state.username,
                 password: this.state.password
             }
-            fetch('http://localhost:4000/api/user/login', {
+            fetch('http://localhost:4000/api/user/register', {
                 method: 'POST',
                 headers: {
                     'Content-type': 'application/json',
@@ -35,27 +35,31 @@ class Login extends Component {
             })
                 .then(res => res.json())
                 .then(data => {
+                    console.log(data)
                     /*this.setState({
                         errors : {
-                            errorFromServer : data
+                            errorFromServer : (data.username) ? data.username : "error"
                         }
                     })*/
-                    window.sessionStorage.setItem("username", data.user.username);
-                    window.sessionStorage.setItem("userId", data.user._id);
+                    if (data.user) {
+                        window.sessionStorage.setItem("username", data.user.username);
+                        window.sessionStorage.setItem("userId", data.user._id);
+                    }
                 })
                 .then(() => {
-                        this.props.history.push('/board')
+                        this.props.history.push('/login')
+                        window.alert("registered successfully, login now")
                     }
                 )
                 .catch(err => {
                     console.error('Error:', err);
                 });
             this.setState({
-                errors : {}
+                errors: {}
             })
         } else {
             this.setState({
-                errors : errors
+                errors: errors
             })
         }
     }
@@ -75,7 +79,7 @@ class Login extends Component {
     render() {
         return (
             <div className="d-flex flex-column mt-5">
-                <p className="font-weight-bold text-center mt-3">LOGIN</p>
+                <p className="font-weight-bold text-center mt-3">REGISTER</p>
                 <div className="d-flex flex-column w-25 m-auto bg-white border rounded p-3">
                     <input
                         onChange={e => this.handleUsernameInput(e)}
@@ -84,22 +88,22 @@ class Login extends Component {
                         placeholder="Pseudonym"/>
                     <span className="text-danger small">{this.state.errors.username}</span>
                     <input
-                        type="password"
                         onChange={e => this.handlePasswordInput(e)}
                         value={this.state.password}
                         className="mt-1"
+                        type="password"
                         placeholder="Password"/>
                     <span className="text-danger small">{this.state.errors.password}</span>
                 </div>
                 <span className="text-danger small text-center">{this.state.errors.errorFromServer}</span>
                 <Link
                     className="mt-3 ml-auto mr-auto btn-dark btn-sm text-decoration-none"
-                    to='/'
-                    onClick={this.login}
-                >Login</Link>
+                    to='/register'
+                    onClick={this.register}
+                >Register</Link>
                 <Link
                     className="small text-muted text-center mt-1"
-                    to="/register">Register</Link>
+                    to="/login">Login</Link>
             </div>
         );
     }
@@ -109,4 +113,4 @@ class Login extends Component {
     }
 }
 
-export default withRouter(Login);
+export default withRouter(Registration);
