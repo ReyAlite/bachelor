@@ -9,8 +9,8 @@ const entrySchema = new Schema({
     title: {type: String, required: true},
     body: {type: String, required: true},
     date: {type: Date, default: Date.now(), required: true},
-    reportedBy: [User.userSchema],
-    amountOfReports: Number,
+    reportedBy: [String],
+    amountOfReports: {type: Number, default: 0},
     comments: [Comment.commentSchema]
 })
 

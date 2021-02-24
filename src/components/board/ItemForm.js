@@ -58,7 +58,7 @@ class ItemForm extends Component {
                 <Button
                     className="btn-sm btn-dark w-25 mt-3 mr-3 ml-auto"
                     href="#!"
-                    onClick={() => this.props.action()}
+                    onClick={() => this.props.handleActiveModal()}
                     aria-controls="item-form"
                     aria-expanded={this.props.isActive}
                 >Neuer Beitrag</Button>
@@ -78,7 +78,6 @@ class ItemForm extends Component {
                                 <textarea
                                     placeholder="Als ich damals..."
                                     className="form-input"
-                                    type="text"
                                     onChange={e => this.handleBodyInput(e)}
                                     name="entry-title"
                                     value={this.state.body}

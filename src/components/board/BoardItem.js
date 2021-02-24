@@ -20,9 +20,11 @@ class BoardItem extends Component {
             .catch(err => console.error(err))
     }
 
+    reportedEntry = (this.props.data.amountOfReports >= 5) ? "border-danger" : "";
+
     render() {
         return (
-            <div className="bg-light m-3 d-flex flex-column border rounded">
+            <div className={`bg-light m-3 d-flex flex-column border rounded ${this.reportedEntry}`}>
                 <div className="d-flex">
                     <span className="pl-2 pt-2 font-weight-bold">{this.data.title}</span>
                     <span className="pr-2 pt-2 small ml-auto">{new Date(this.data.date).toDateString()}</span>
@@ -30,9 +32,10 @@ class BoardItem extends Component {
                 <span className="pl-2 small">{this.data.author}</span>
                 <p className="p-2 small">{this.data.body}</p>
                 <span
+                    className="ml-auto p-2 small text-muted"
                     id={this.props.data._id}
                     onClick={this.handleReport}
-                >!!!</span>
+                >report</span>
             </div>
         );
     }

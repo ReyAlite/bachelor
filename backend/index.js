@@ -5,7 +5,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 //provides functions to work with database
 const mongoose = require('mongoose');
-const path = require('path');
+const passport = require('passport');
 //api routes
 const routes = require('./routes/api');
 
@@ -16,6 +16,7 @@ const app = express();
 
 const port = process.env.PORT || 4000;
 
+//app.use(passport.initialize())
 //configure cors headers for server, to allow access from other ports than 4000
 app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");

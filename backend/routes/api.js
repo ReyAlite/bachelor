@@ -13,6 +13,7 @@ const User = require('../models/user').User;
 const validate = require('./validation');
 //passport
 const passport = require('passport')
+require('../config/passport')(passport)
 
 /*function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated())
@@ -36,7 +37,7 @@ router.get('/entries', (req, res) => {
                     body: entry.body,
                     comments: entry.comments,
                     date: entry.date,
-                    reportedBy: entry.reportedBy,
+                    amountOfReports: entry.amountOfReports,
                     title: entry.title,
                     __v: entry.__v,
                     _id: entry._id,
@@ -53,7 +54,6 @@ router.get('/entries', (req, res) => {
 // @access  Private
 router.post('/entries', (req, res) => {
     if (req.body) {
-        console.log(req.body)
         User.findById(req.body.userId)
             .then(user => {
                 Entry.create({
@@ -85,8 +85,16 @@ router.put('/entries/:id', (req, res) => {
     console.log(req.body)
     Entry.findById(req.params.id)
         .then(entry => {
-            console.log(entry)
-            res.status(200).json(entry)
+            if(entry.reportedBy.includes(req.body.userId)){
+                res.json("you already reported this entry")
+            } else {
+                entry.reportedBy.push(req.body.userId)
+                entry.amountOfReports = ++entry.amountOfReports
+                entry.save()
+                    .then(() => {
+                        res.status(200).json(entry)
+                    })
+            }
         })
         .catch(err => console.error(err))
 })

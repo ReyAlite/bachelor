@@ -9,13 +9,21 @@ class Board extends Component {
         super(props)
         this.state = {
             modalIsActive: false,
-            data: []
+            data: [],
+            update: 0
         }
         this.handleActiveModal = this.handleActiveModal.bind(this)
+        this.handleUpdate = this.handleUpdate.bind(this)
     }
 
     handleActiveModal() {
         this.setState({modalIsActive: !this.state.modalIsActive})
+    }
+
+    handleUpdate(){
+        let num = this.state.update
+        num++
+        this.setState({update: num})
     }
 
     generateEntryList = () => {
@@ -31,7 +39,8 @@ class Board extends Component {
                 <Header name="Board"/>
                 <div className="bg-white mt-3 border rounded">
                     <ItemForm
-                        action={this.handleActiveModal}
+                        handleActiveModal={this.handleActiveModal}
+                        handleUpdate={this.handleUpdate}
                         isActive={this.state.modalIsActive}/>
                     {this.generateEntryList()}
                 </div>
@@ -44,6 +53,7 @@ class Board extends Component {
             .then(res => {
                 res.json()
                     .then(data => {
+                        console.log(data)
                         this.setState({
                             data: data
                         })
